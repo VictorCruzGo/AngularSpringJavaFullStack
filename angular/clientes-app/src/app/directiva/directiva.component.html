@@ -1,0 +1,10 @@
+<button type="button" (click)="setHabilitar()" class="btn btn-primary my-3">{{getCambiarNombreBoton()}}</button>
+<div class="card">
+    <div class="card-header">
+        Listado de cursos
+    </div>
+    <ul class="list-group" *ngIf="habilitar==true">
+        <!-- Iterar con directiva estructural *ngFor -->
+        <li class="list-group-item" *ngFor="let curso of listaCurso">{{curso}}</li>
+    </ul>
+</div>
