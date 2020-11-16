@@ -9,6 +9,7 @@ import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes} from '@angular/router'; //rutas
+import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS Cliente, Java HTTP, Client Jersey
 
 //MAPEO DE RUTAS //rutas
 const routes: Routes=[
@@ -28,6 +29,7 @@ const routes: Routes=[
   ],
   imports: [
     BrowserModule, 
+    HttpClientModule, //CORS. Agregar y registrar el modulo
     RouterModule.forRoot(routes) //rutas
   ],
   //DECLARACION DE SERVICIO (Adicionar el nuevo servicio)
