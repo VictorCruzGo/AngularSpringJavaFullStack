@@ -18,7 +18,7 @@ export class ClienteService {
   //Inyectar el HttpClient via constructor
   constructor(private http:HttpClient) { }
 
-//Observable=Stream de datos
+  //Observable=Stream de datos
   getClientes():Observable<Cliente[]>{
     //1.Si REST
     //return of(CLIENTES) ;
@@ -26,7 +26,7 @@ export class ClienteService {
     //2.Con REST y CAST
     //Retorna un observable del tipo Any. Hacer un cast al tipo Cliente
     //El metodo get siempre va a retornar un tipo observable
-    //Dentro del cuerpo de la promesa va a devolver y json por defecto sin tipo. Convertir al la clase Cliente
+    //Dentro del cuerpo (promesa) va a devolver y json por defecto sin tipo. Convertir al la clase Cliente
     // return this.http.get<Cliente[]>(this.urlEndPoint);
     
     //3.Con REST, RactxJS,CAST

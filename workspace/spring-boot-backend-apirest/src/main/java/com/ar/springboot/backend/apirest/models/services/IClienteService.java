@@ -8,4 +8,7 @@ import com.ar.springboot.backend.apirest.models.entity.Cliente;
 //Metodos del Crud
 public interface IClienteService {
 	public List<Cliente> findAll();
+	public Cliente findById(Long id);
+	public Cliente save(Cliente cliente);
+	public void delete(Long id);
 }
