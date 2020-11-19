@@ -1,3 +1,4 @@
+import { CommonModule} from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -14,11 +15,13 @@ import { FormComponent } from './clientes/form.component';
 import { FormsModule} from '@angular/forms';
 
 //MAPEO DE RUTAS //rutas
+//Las rutas definicias redireccion al componente
 const routes: Routes=[
   {path:'', redirectTo:'/clientes', pathMatch:'full'},
   {path:'directivas', component: DirectivaComponent},
   {path:'clientes',component: ClientesComponent},
   {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent
+  {path:'clientes/form/:id', component:FormComponent}
 ];
 
 @NgModule({
@@ -32,6 +35,7 @@ const routes: Routes=[
     FormComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule, 
     HttpClientModule, //CORS. Agregar y registrar el modulo
     FormsModule, //Registrar modulo para trabajar con formularios

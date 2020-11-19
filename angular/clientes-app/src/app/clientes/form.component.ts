@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router'; //ActivatedRoute, obtine informacion de la ruta activa. Ej. parametros
 import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
@@ -17,10 +17,13 @@ export class FormComponent implements OnInit {
   public titulo:String="Crear cliente";
   
   //Inyectar ClienteService
-  constructor(private clienteService:ClienteService,
-    private router:Router) { }
+  constructor(
+    private clienteService:ClienteService,
+    private router:Router,
+    private activateRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.cargarCliente()
   }
 
   //1.forma
@@ -45,4 +48,32 @@ export class FormComponent implements OnInit {
       }
     )
   }
+
+  cargarCliente():void{
+    //Suscribir un observador que esta observando cuando obtengamos un ID.
+    //Observable=activateRoute.params
+    //Observador=funcion anonima o funcion lambda.
+    this.activateRoute.params.subscribe(
+      //El observador (expresion lambda), es notificado con el parametro id.
+      params=>{
+      let id=params[`id`]
+      if(id){
+        //suscribimos para registrar el observador que asigna el cliente de la consulta al atributo cliente
+        this.clienteService.getCliente(id).subscribe(
+          //El observador (expresion lambda) asigna al atributo cliente el resultado de la peticion
+          (cliente)=>this.cliente=cliente
+        )
+      }
+    })
+  }
+
+  update():void{
+    this.clienteService.update(this.cliente)
+    .subscribe( cliente=>{
+      this.router.navigate(['/clientes'])
+      Swal.fire('Cliente Actualizado', `Cliente ${cliente.nombre} actualizado con exito`,'success')
+    }
+    )
+  }
+
 } 
