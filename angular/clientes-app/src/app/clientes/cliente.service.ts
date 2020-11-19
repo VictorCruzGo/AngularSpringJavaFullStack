@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cliente } from './cliente';
 import { CLIENTES } from './clientes.json';
 import { of, Observable} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 //El decorador indica que tipo clase representa en angular
@@ -15,11 +15,14 @@ export class ClienteService {
   //EndPoint del servicio REST
   private urlEndPoint:string='http://localhost:8080/api/clientes';
 
+  //Cabecera http
+  private httpHeaders=new HttpHeaders({'Content-Type':'application/json'})
+
   //Inyectar el HttpClient via constructor
   constructor(private http:HttpClient) { }
 
   //Observable=Stream de datos
-  getClientes():Observable<Cliente[]>{
+  //getClientes():Observable<Cliente[]>{
     //1.Si REST
     //return of(CLIENTES) ;
     
@@ -36,8 +39,18 @@ export class ClienteService {
     // );
     
     //4.Con REST, Funcion anonima,CAST
-    return this.http.get(this.urlEndPoint).pipe(
-       map( function(Response) {return Response as Cliente[]})
-     );
+    // return this.http.get(this.urlEndPoint).pipe(
+    //    map( function(Response) {return Response as Cliente[]})
+    //  );
+  //}
+
+  getClientes():Observable<Cliente[]>{
+     return this.http.get(this.urlEndPoint).pipe(
+       map( Response => Response as Cliente[])
+    );
+  }
+
+  create(cliente:Cliente):Observable<Cliente>{
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers:this.httpHeaders})
   }
 }
