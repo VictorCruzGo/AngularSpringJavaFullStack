@@ -5,20 +5,20 @@ import { of, Observable} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-//El decorador indica que tipo clase representa en angular
-//@Inyectable=Clase Servicio
-//Se puede inyectar a otra clase
+//El decorador indica que tipo clase representa en angular.
+//@Inyectable=Clase Servicio.
+//Se puede inyectar a otra clase.
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  //EndPoint del servicio REST
+  //EndPoint del servicio REST.
   private urlEndPoint:string='http://localhost:8080/api/clientes';
 
-  //Cabecera http
+  //Cabecera http.
   private httpHeaders=new HttpHeaders({'Content-Type':'application/json'})
 
-  //Inyectar el HttpClient via constructor
+  //Inyectar el HttpClient via constructor.
   constructor(private http:HttpClient) { }
 
   //Observable=Stream de datos
@@ -56,8 +56,8 @@ export class ClienteService {
 
   getCliente(id): Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`)
-    //Forma alternativa
-    //return this.http.get<Cliente>(this.urlEndPoint+'/'+id)
+    //Forma alternativa.
+    //return this.http.get<Cliente>(this.urlEndPoint+'/'+id).
   }
 
   update(cliente:Cliente):Observable<Cliente>{

@@ -9,8 +9,8 @@ import { ClienteService } from './cliente.service';
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
-  //Angular usa el patron MVVM (Modelo Vista Vista Modelo)
-  //ngModel va a poblar al objeto cliente con los datos del formulario
+  //Angular usa el patron MVVM (Modelo Vista Vista Modelo).
+  //ngModel va a poblar al objeto cliente con los datos del formulario.
   //binding = poblar/enlazar en ambas direcciones.
   //El formulario esta mapeado a un objeto. El objeto es un atributo en la clase componente.
   public cliente:Cliente=new Cliente();
@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
     this.cargarCliente()
   }
 
-  //1.forma
+  //1.forma.
   // public create():void{
   //   console.log("Clicked!!");
   //   console.log(this.cliente);
@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
   //    )
   // }
 
-  //2.forma
+  //2.forma.
   public create():void{
     console.log("Clicked!!");
     console.log(this.cliente);

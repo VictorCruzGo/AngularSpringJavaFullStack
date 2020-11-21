@@ -9,23 +9,23 @@ import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
-import { RouterModule, Routes} from '@angular/router'; //rutas
-import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS Cliente, Java HTTP, Client Jersey
+import { RouterModule, Routes} from '@angular/router'; //Rutas.
+import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS Cliente, Java HTTP, Client Jersey.
 import { FormComponent } from './clientes/form.component'; 
 import { FormsModule} from '@angular/forms';
 
-//MAPEO DE RUTAS //rutas
-//Las rutas definicias redireccion al componente
+//MAPEO DE RUTAS //rutas.
+//Las rutas definicias redireccion al componente.
 const routes: Routes=[
   {path:'', redirectTo:'/clientes', pathMatch:'full'},
   {path:'directivas', component: DirectivaComponent},
   {path:'clientes',component: ClientesComponent},
-  {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent
+  {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent.
   {path:'clientes/form/:id', component:FormComponent}
 ];
 
 @NgModule({
-  //DECLARACION DE COMPONENTES (Adicionar el nuevo componente)
+  //DECLARACION DE COMPONENTES (Adicionar el nuevo componente).
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -37,11 +37,11 @@ const routes: Routes=[
   imports: [
     CommonModule,
     BrowserModule, 
-    HttpClientModule, //CORS. Agregar y registrar el modulo
-    FormsModule, //Registrar modulo para trabajar con formularios
+    HttpClientModule, //CORS. Agregar y registrar el modulo.
+    FormsModule, //Registrar modulo para trabajar con formularios.
     RouterModule.forRoot(routes) //rutas
   ],
-  //DECLARACION DE SERVICIO (Adicionar el nuevo servicio)
+  //DECLARACION DE SERVICIO (Adicionar el nuevo servicio).
   providers: [ClienteService],
   bootstrap: [AppComponent]
 })
