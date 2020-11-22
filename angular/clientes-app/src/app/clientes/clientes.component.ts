@@ -52,13 +52,14 @@ export class ClientesComponent implements OnInit {
       confirmButtonText: 'Si, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
+        //Observable.suscribe(observer)
         this.clienteService.delete(cliente.id).subscribe(
           Response=>{
             //Filtrar el cliente eliminado
             this.clientes=this.clientes.filter(cli=>cli!==cliente)
             Swal.fire(
-              'Deleted!',
-              'Your file has been deleted.',
+              'Eliminado!',
+              'El registro fue borrado.',
               'success'
             )
           }

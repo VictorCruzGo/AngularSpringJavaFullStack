@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+/* Estilos globales, para definir una posicion relatia para el documento html */
+html{
+    position: relative;
+    min-height: 100%;
+}
+body{
+    margin-bottom:60px;
+}

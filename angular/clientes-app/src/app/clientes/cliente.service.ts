@@ -65,6 +65,7 @@ export class ClienteService {
   }
 
   delete(id):Observable<Cliente>{
+    //No es necesario pasar las cabeceras
     //return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.httpHeaders})
     return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`)
   }

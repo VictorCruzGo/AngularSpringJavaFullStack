@@ -8,7 +8,13 @@
           <button class="btn btn-rounded btn-primary" type="button" routerLink='/clientes/form'>Crear cliente</button>
       </div>
       
-      <table class="table table-bordered table-striped">
+      <!-- Alerta de informacion para mostrar un mensaje de no existencia de registros -->
+      <div *ngIf="clientes?.length==0" class="alert alert-info">
+          No hay registros en la base de datos
+      </div>
+
+      <!-- <table class="table table-bordered table-striped" *ngIf="clientes?.length>0"></table> -->
+      <table class="table table-bordered table-striped" *ngIf="clientes.length>0 || clientes!=null">
           <thead>
               <tr>
                   <th>id</th>
