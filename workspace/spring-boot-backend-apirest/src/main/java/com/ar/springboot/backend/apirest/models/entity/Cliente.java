@@ -27,8 +27,10 @@ public class Cliente implements Serializable {
 	
 	
 	//@Column,se puede omitir si el campo tiene el mismo nombre del atributo
+	@Column(nullable = false)
 	private String nombre;
 	private String apellido;
+	@Column(nullable=false, unique = true)
 	private String email;
 	
 	@Column(name="create_at")
