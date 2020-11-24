@@ -15,7 +15,7 @@ export class FormComponent implements OnInit {
   //El formulario esta mapeado a un objeto. El objeto es un atributo en la clase componente.
   public cliente:Cliente=new Cliente();
   public titulo:String="Crear cliente";
-  
+
   //Inyectar ClienteService
   constructor(
     private clienteService:ClienteService,
@@ -30,21 +30,36 @@ export class FormComponent implements OnInit {
   // public create():void{
   //   console.log("Clicked!!");
   //   console.log(this.cliente);
-  //   //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable  
+  //   //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
   //    this.clienteService.create(this.cliente).subscribe(
   //      Response=>this.router.navigate(['/clientes'])
   //    )
   // }
 
   //2.forma.
+  //Con objeto Any
+  // public create():void{
+  //   console.log("Clicked!!");
+  //   console.log(this.cliente);
+  //   //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
+  //   this.clienteService.create(this.cliente).subscribe(
+  //   json=>{
+  //       this.router.navigate(['/clientes'])
+  //       Swal.fire('Nuevo cliente',`Cliente ${json.cliente.nombre} creado con exito`, 'success')
+  //     }
+  //   )
+  // }
+
+  //3.forma.
+  //Con objeto Cliente transformado
   public create():void{
     console.log("Clicked!!");
     console.log(this.cliente);
     //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
     this.clienteService.create(this.cliente).subscribe(
-    Cliente=>{
+    cliente=>{
         this.router.navigate(['/clientes'])
-        Swal.fire('Nuevo cliente',`Cliente ${Cliente.nombre} creado con exito`, 'success')
+        Swal.fire('Nuevo cliente',`Cliente ${cliente.nombre} creado con exito`, 'success')
       }
     )
   }
@@ -67,6 +82,19 @@ export class FormComponent implements OnInit {
     })
   }
 
+  //1 forma
+  //Con objeto any
+  // update():void{
+  //   this.clienteService.update(this.cliente)
+  //   .subscribe( json=>{
+  //     this.router.navigate(['/clientes'])
+  //     Swal.fire('Cliente Actualizado', `Cliente ${json.cliente.nombre} actualizado con exito`,'success')
+  //   }
+  //   )
+  // }
+
+  //2 forma
+  //Con objeto Cliente transformado
   update():void{
     this.clienteService.update(this.cliente)
     .subscribe( cliente=>{
@@ -76,4 +104,4 @@ export class FormComponent implements OnInit {
     )
   }
 
-} 
+}
