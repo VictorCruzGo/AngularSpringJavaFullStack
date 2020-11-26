@@ -12,6 +12,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 //Convertir en una clase de persistencia mapeado a una tabla
@@ -27,9 +30,16 @@ public class Cliente implements Serializable {
 	
 	
 	//@Column,se puede omitir si el campo tiene el mismo nombre del atributo
+	//javax.validation.constraint para versiones superior 2 de spring boot
+	@NotEmpty
+	@Size(min=4, max=12)
 	@Column(nullable = false)
 	private String nombre;
+	
+	@NotEmpty
 	private String apellido;
+	
+	@Email
 	@Column(nullable=false, unique = true)
 	private String email;
 	
