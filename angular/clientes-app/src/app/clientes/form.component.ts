@@ -13,8 +13,9 @@ export class FormComponent implements OnInit {
   //ngModel va a poblar al objeto cliente con los datos del formulario.
   //binding = poblar/enlazar en ambas direcciones.
   //El formulario esta mapeado a un objeto. El objeto es un atributo en la clase componente.
-  public cliente:Cliente=new Cliente();
-  public titulo:String="Crear cliente";
+  public cliente:Cliente=new Cliente()
+  public titulo:string="Crear cliente"
+  public errores:string[]
 
   //Inyectar ClienteService
   constructor(
@@ -53,14 +54,22 @@ export class FormComponent implements OnInit {
   //3.forma.
   //Con objeto Cliente transformado
   public create():void{
-    console.log("Clicked!!");
-    console.log(this.cliente);
+    console.log("Clicked!!")
+    console.log(this.cliente)
     //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
     this.clienteService.create(this.cliente).subscribe(
+    //Exito, primer argumento.
     cliente=>{
         this.router.navigate(['/clientes'])
         Swal.fire('Nuevo cliente',`Cliente ${cliente.nombre} creado con exito`, 'success')
+      },
+    //Error, segundo argumento. Suscribir a un observador, cuando las cosas salen mal.
+      err=>{
+        this.errores=err.error.errors as string[]
+        console.error('Codigo del error en el backend: '+err.status)
+        console.error(err.error.errors)
       }
+      //Completo, tercer parmetro
     )
   }
 
@@ -97,10 +106,19 @@ export class FormComponent implements OnInit {
   //Con objeto Cliente transformado
   update():void{
     this.clienteService.update(this.cliente)
-    .subscribe( cliente=>{
+    .subscribe(
+    //Exito. Primer parametro.
+      cliente=>{
       this.router.navigate(['/clientes'])
       Swal.fire('Cliente Actualizado', `Cliente ${cliente.nombre} actualizado con exito`,'success')
+    },
+    //Error. Segundo parametro.
+    err=>{
+      this.errores=err.error.errors as string[]
+      console.error('Codigo del error en el backend: '+err.status)
+      console.error(err.error.errors)
     }
+    //Completo. Tercer parametro.
     )
   }
 

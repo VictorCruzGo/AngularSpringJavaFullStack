@@ -84,6 +84,12 @@ export class ClienteService {
     .pipe(
       map( response=> response.cliente as Cliente),
       catchError(e=>{
+
+        if(e.status==400){
+          //Por que la variable donde se encuentran los errores se llama 'errors'
+          return throwError(e);
+        }
+
         console.error(e.error.mensaje)
         //Swal.fire('Error al crear el cliente', e.error.mensaje, 'error')
         Swal.fire(e.error.mensaje,e.error.error, 'error')
@@ -145,6 +151,9 @@ export class ClienteService {
     .pipe(
       map(response=>response.cliente as Cliente),
       catchError(e=>{
+        if(e.status==400){
+          return throwError(e)
+        }
         console.error(e.error.mensaje)
         //Swal.fire('Error al actualizar', e.error.mensaje,'error')
         Swal.fire(e.error.mensaje,e.error.error, 'error')

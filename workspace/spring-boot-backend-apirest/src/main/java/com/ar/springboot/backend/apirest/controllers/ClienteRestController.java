@@ -90,11 +90,9 @@ public class ClienteRestController {
 	@PostMapping("/clientes")
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {		
 		Cliente clienteNew=null;
-		Map<String, Object> response=new HashMap<>();
-		System.out.println("------por aqui 0::"+result.hasErrors());
+		Map<String, Object> response=new HashMap<>();		
 		
-		if (result.hasErrors()) {
-			System.out.println("------por aqui");
+		if (result.hasErrors()) {		
 			/*
 			List<String> errors=new ArrayList<>();
 			
