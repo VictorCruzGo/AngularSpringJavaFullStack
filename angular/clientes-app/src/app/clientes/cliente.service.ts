@@ -84,15 +84,15 @@ export class ClienteService {
     .pipe(
       map( response=> response.cliente as Cliente),
       catchError(e=>{
-
-        if(e.status==400){
-          //Por que la variable donde se encuentran los errores se llama 'errors'
+        //Para el caso que contenga varios errores 'errors'
+        if(e.status==400){ //El  objeto e tiene el atributo status
+          //Retornar los errores para que el compnente 'form.component.ts' lo capture en el metodo suscribe
           return throwError(e);
         }
-
+        //Para el caso que contenga un solo mensaje de error
         console.error(e.error.mensaje)
         //Swal.fire('Error al crear el cliente', e.error.mensaje, 'error')
-        Swal.fire(e.error.mensaje,e.error.error, 'error')
+        Swal.fire(e.error.mensaje, e.error.error, 'error')
         return throwError(e)
       })
     )

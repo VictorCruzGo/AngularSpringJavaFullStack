@@ -58,13 +58,16 @@ export class FormComponent implements OnInit {
     console.log(this.cliente)
     //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
     this.clienteService.create(this.cliente).subscribe(
-    //Exito, primer argumento.
-    cliente=>{
+      //Exito, primer argumento.
+      cliente=>{
         this.router.navigate(['/clientes'])
         Swal.fire('Nuevo cliente',`Cliente ${cliente.nombre} creado con exito`, 'success')
       },
-    //Error, segundo argumento. Suscribir a un observador, cuando las cosas salen mal.
+      //Error, segundo argumento. Suscribir a un observador, cuando las cosas salen mal.
       err=>{
+        //this.errores=Atributo de la clase
+        //err tiene atribuos error y status
+        //err.error.errors=objeto.atributo.json
         this.errores=err.error.errors as string[]
         console.error('Codigo del error en el backend: '+err.status)
         console.error(err.error.errors)

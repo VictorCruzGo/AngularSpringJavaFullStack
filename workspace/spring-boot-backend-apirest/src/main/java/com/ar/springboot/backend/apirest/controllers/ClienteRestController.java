@@ -44,7 +44,7 @@ public class ClienteRestController {
 	public List<Cliente> index(){
 		return clienteService.findAll();
 	}
-	
+
 //	@GetMapping("/clientes/{id}")
 //	//@ResponseStatus(HttpStatus.OK)//por defecto valor 200
 //	public Cliente show(@PathVariable Long id) {		
@@ -76,40 +76,44 @@ public class ClienteRestController {
 		return new ResponseEntity<Cliente>(cliente,HttpStatus.OK);
 	}
 	
-//	@PostMapping("/clientes")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Cliente create(@RequestBody Cliente cliente) {
-//		//cliente.setCreateAt(new Date());//Se agrego el prepersist en la clase Cliente
-//		return clienteService.save(cliente);
-//	}
+/*	@PostMapping("/clientes")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente create(@RequestBody Cliente cliente) {
+		//cliente.setCreateAt(new Date());//Se agrego el prepersist en la clase Cliente
+		return clienteService.save(cliente);
+	}*/
 	
-//	@Valid, Justo antes de invocar el metodo create. 
-//	El interceptor de spring, intercepta el objeto cliente y valida cada valor desde el requestbody que esta enviando en formato json.
-//  Sin la anotacion a persar de tener configurado la Entity no se va validar.
-//	@BindingResult, objeto que tiene es resultado de la validacion
+/*
+ * @Valid, Justo antes de invocar el metodo create. // El interceptor de
+ * spring, intercepta el objeto cliente y valida cada valor desde el requestbody
+ * que esta enviando en formato json. // Sin la anotacion a persar de tener
+ * configurado la Entity no se va validar. // @BindingResult, objeto que tiene
+ * es resultado de la validacion
+ */	
+	
 	@PostMapping("/clientes")
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {		
 		Cliente clienteNew=null;
 		Map<String, Object> response=new HashMap<>();		
 		
-		if (result.hasErrors()) {		
+		if (result.hasErrors()) {
+			
 			/*
-			List<String> errors=new ArrayList<>();
-			
-			for (FieldError err : result.getFieldErrors()) {
-				errors.add("El campo '"+err.getField()+"' "+err.getDefaultMessage());
-			}
-			*/
-			
+			 * List<String> errors=new ArrayList<>();
+			 * 
+			 * for (FieldError err : result.getFieldErrors()) {
+			 * errors.add("El campo '"+err.getField()+"' "+err.getDefaultMessage()); }
+			 */
+			 			
 			List<String> errors=result.getFieldErrors()
 					.stream()
-					.map(err->{
+					.map(err->{ //Por cada elemento del flujo 'fieldError' convertir a String
 						return "El campo '"+err.getField()+"' "+err.getDefaultMessage();
 						})
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST); //Error 400
 		}
 						
 		try {
@@ -127,17 +131,20 @@ public class ClienteRestController {
 	}
 	
 	
-//	@PutMapping("/clientes/{id}")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id) {
-//		Cliente clienteActual=clienteService.findById(id);
-//		clienteActual.setApellido(cliente.getApellido());
-//		clienteActual.setNombre(cliente.getNombre());
-//		clienteActual.setEmail(cliente.getEmail());
-//		
-//		return clienteService.save(clienteActual);
-//	}
+	/*
+	 * @PutMapping("/clientes/{id}")
+	 * 
+	 * @ResponseStatus(HttpStatus.CREATED) public Cliente update(@RequestBody
+	 * Cliente cliente, @PathVariable Long id) { Cliente
+	 * clienteActual=clienteService.findById(id);
+	 * clienteActual.setApellido(cliente.getApellido());
+	 * clienteActual.setNombre(cliente.getNombre());
+	 * clienteActual.setEmail(cliente.getEmail());
+	 * 
+	 * return clienteService.save(clienteActual); }
+	 */
 	
+	//Importante el orden @Valid y BindingResult
 	@PutMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result , @PathVariable Long id) {
@@ -149,9 +156,7 @@ public class ClienteRestController {
 		if (result.hasErrors()) {
 			List<String> errors=result.getFieldErrors()
 					.stream()
-					.map(err->{
-						return "El campo '"+err.getField()+"' "+err.getDefaultMessage();
-						})
+					.map(err->"El campo '"+err.getField()+"' "+err.getDefaultMessage())
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
@@ -185,11 +190,12 @@ public class ClienteRestController {
 	}
 	
 	
-//	@DeleteMapping("/clientes/{id}")
-//	@ResponseStatus(HttpStatus.NO_CONTENT)
-//	public void delete(@PathVariable Long id) {
-//		clienteService.delete(id);
-//	}
+	/*
+	 * @DeleteMapping("/clientes/{id}")
+	 * 
+	 * @ResponseStatus(HttpStatus.NO_CONTENT) public void delete(@PathVariable Long
+	 * id) { clienteService.delete(id); }
+	 */
 	
 	@DeleteMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
