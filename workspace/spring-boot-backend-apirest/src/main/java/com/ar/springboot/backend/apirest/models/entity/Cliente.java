@@ -30,17 +30,17 @@ public class Cliente implements Serializable {
 	
 	
 	//@Column,se puede omitir si el campo tiene el mismo nombre del atributo
-	//javax.validation.constraint para versiones superior 2 de spring boot
-	@NotEmpty
-	@Size(min=4, max=12)
+	//javax.validation.constraint para versiones superior 2 de spring boot	
+	@NotEmpty(message="No puede estar vacio") 
+	@Size(min=4, max=12, message="El tamano tiene que estar entre 4 y 12 caracteres")
 	@Column(nullable = false)
 	private String nombre;
 	
-	@NotEmpty
+	@NotEmpty(message="No puede estar vacio")
 	private String apellido;
 	
-	@NotEmpty
-	@Email
+	@NotEmpty(message="No puede estar vacio")
+	@Email(message="No es una direccion de correo valido")
 	@Column(nullable=false, unique = true)
 	private String email;
 	
