@@ -1,6 +1,6 @@
 import { CommonModule} from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 
 //IMPORTS COMPONENTES (Adicionar el nuevo componente)
 import { AppComponent } from './app.component';
@@ -11,8 +11,13 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes} from '@angular/router'; //Rutas.
 import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS Cliente, Java HTTP, Client Jersey.
-import { FormComponent } from './clientes/form.component'; 
+import { FormComponent } from './clientes/form.component';
 import { FormsModule} from '@angular/forms';
+import localES from '@angular/common/locales/es'
+import {registerLocaleData} from '@angular/common';
+
+//Formato de fecha en ES
+registerLocaleData(localES,'es')
 
 //MAPEO DE RUTAS //rutas.
 //Las rutas definicias redireccion al componente.
@@ -36,13 +41,13 @@ const routes: Routes=[
   ],
   imports: [
     CommonModule,
-    BrowserModule, 
+    BrowserModule,
     HttpClientModule, //CORS. Agregar y registrar el modulo.
     FormsModule, //Registrar modulo para trabajar con formularios.
     RouterModule.forRoot(routes) //rutas
   ],
   //DECLARACION DE SERVICIO (Adicionar el nuevo servicio).
-  providers: [ClienteService],
+  providers: [ClienteService ,{provide: LOCALE_ID, useValue:'es'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

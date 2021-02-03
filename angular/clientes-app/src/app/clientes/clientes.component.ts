@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
+import {tap} from 'rxjs/operators'
+import { ConsoleReporter } from 'jasmine';
+import { Console } from 'console';
 //import { CLIENTES } from './clientes.json';
 
 @Component({
@@ -21,7 +24,7 @@ export class ClientesComponent implements OnInit {
   //2da forma de inyecar un servicio
   //constructor(private clienteService:ClienteService){}
   constructor(private clienteService:ClienteService){}
-  
+
   //3ra forma de inyecar un servicio
   //constructor(clienteService:ClienteService){
     //this.clienteService=clienteService;
@@ -34,7 +37,16 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     //Suscribir al Observable a un Observador para recibir datos asicronamente
-    this.clienteService.getClientes().subscribe( //Suscribir al observable
+    this.clienteService.getClientes()
+    .pipe(
+      tap(clientes=>{
+        console.log('ClienteComponent: tap 3')
+        clientes.forEach(cliente=>{
+          console.log(cliente.nombre)
+        })
+      })
+    )
+    .subscribe( //Suscribir al observable
       clientes=>this.clientes=clientes//1ra forma Observador
       //(clientes)=>{this.clientes=clientes} //2da forma
       //function clientes{this.clientes=clientes} //3ra forma
@@ -63,8 +75,8 @@ export class ClientesComponent implements OnInit {
               'success'
             )
           }
-        )        
+        )
       }
-    })    
+    })
   }
 }

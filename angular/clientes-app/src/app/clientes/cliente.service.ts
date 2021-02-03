@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { formatDate, DatePipe} from '@angular/common';
 import { Cliente } from './cliente';
 import { CLIENTES } from './clientes.json';
 import { of, Observable, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { ClientesComponent } from './clientes.component';
 
 //El decorador indica que tipo clase representa en angular.
 //@Inyectable=Clase Servicio.
@@ -48,7 +50,36 @@ export class ClienteService {
 
   getClientes():Observable<Cliente[]>{
      return this.http.get(this.urlEndPoint).pipe(
-       map( Response => Response as Cliente[])
+      //  map( Response => Response as Cliente[])
+      tap(response=>{
+        let clientes=response as Cliente[]
+        console.log('ClienteService: tap 1')
+        clientes.forEach(cliente=>{
+          console.log(cliente.nombre)
+        })
+      }),
+      map( response => {
+        let clientes=response as Cliente[]
+        return clientes.map(cliente=>{
+          cliente.nombre=cliente.nombre.toUpperCase()
+          //cliente.apellido=cliente.apellido.toUpperCase()
+          //Con formatDate
+          // cliente.createAt=formatDate(cliente.createAt,'dd-MM-yyyy','en-US')
+          //Con DatePipe
+          let datePipe=new DatePipe('es')
+          //cliente.createAt=datePipe.transform(cliente.createAt,'dd/MM/yyyy')
+          //cliente.createAt=datePipe.transform(cliente.createAt,'EEEE dd, MMMM yyyy')
+          //cliente.createAt=datePipe.transform(cliente.createAt,'fullDate')
+          //cliente.createAt=datePipe.transform(cliente.createAt,'fullDate')
+          return cliente
+        })
+      }),
+      tap(response=>{
+        console.log('ClienteService: tap 2')
+        response.forEach(cliente=>{
+          console.log(cliente.nombre)
+        })
+      })
     );
   }
 
