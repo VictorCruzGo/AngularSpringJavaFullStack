@@ -3,8 +3,6 @@ import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import { tap } from 'rxjs/operators';
-import { ConsoleReporter } from 'jasmine';
-import { Console } from 'console';
 import { ActivatedRoute } from '@angular/router';
 //import { CLIENTES } from './clientes.json';
 
@@ -13,7 +11,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './clientes.component.html',
 })
 export class ClientesComponent implements OnInit {
-  clientes: Cliente[];
+  //Atributos
+  clientes: Cliente[]
+  paginador:any
   //private clienteService:ClienteService;//1
 
   //1ra forma de inyectar un servicio
@@ -63,7 +63,10 @@ export class ClientesComponent implements OnInit {
         )
         .subscribe(
           //Suscribir al observable
-          (response) => (this.clientes = response.content as Cliente[]) //1ra forma Observador
+          (response) => {//1ra forma Observador
+            this.clientes = response.content as Cliente[]
+            this.paginador=response //response contiene todos los atributos del paginador
+          }
           //(clientes)=>{this.clientes=clientes} //2da forma
           //function clientes{this.clientes=clientes} //3ra forma
         );

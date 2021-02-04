@@ -42,5 +42,10 @@
               </tr>
           </tbody>
       </table>
+      <!--Inyector desde componente padre, el atributo 'paginador al componente hijo'-->
+      <!--Inyeccion de dependencia entre un componente padre e hijo-->
+      <!--[atributo hijo]="atribujo padre"-->
+      <!--Validar que el atributo paginador del componente padre exista. Validar para evitar error puesto que ambos componentes se ejecutan asincronamente-->
+      <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
     </div>
 </div>
