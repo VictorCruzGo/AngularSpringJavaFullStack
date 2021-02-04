@@ -38,6 +38,7 @@ export class ClientesComponent implements OnInit {
   //this.clientes=this.clienteService.getClientes();
   //}
 
+  //Se crea e inicializa una sola vez. Solo cambia el parametro page
   ngOnInit(): void {
     //Recuperar el parametro 'page' desde un observable
     //Se encarga de suscribir un observador cada vez que cambia el parametro page en la ruta.
