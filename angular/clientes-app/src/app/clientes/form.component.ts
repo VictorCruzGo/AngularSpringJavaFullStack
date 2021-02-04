@@ -79,7 +79,7 @@ export class FormComponent implements OnInit {
   cargarCliente():void{
     //Suscribir un observador que esta observando cuando obtengamos un ID.
     //Observable=activateRoute.params
-    //Observador=funcion anonima o funcion lambda.
+    //Observador=funcion anonima o funcion lambda o expresion lambda.
     this.activateRoute.params.subscribe(
       //El observador (expresion lambda), es notificado con el parametro id.
       params=>{
