@@ -17,8 +17,10 @@ import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS
 
 import { FormsModule} from '@angular/forms';
 import localES from '@angular/common/locales/es'
-import {registerLocaleData} from '@angular/common';
-
+import { registerLocaleData } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 //Formato de fecha en ES
 registerLocaleData(localES,'es')
@@ -50,10 +52,13 @@ const routes: Routes=[
     BrowserModule,
     HttpClientModule, //CORS. Agregar y registrar el modulo.
     FormsModule, //Registrar modulo para trabajar con formularios.
-    RouterModule.forRoot(routes) //rutas
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   //DECLARACION DE SERVICIO (Adicionar el nuevo servicio).
-  providers: [ClienteService ,{provide: LOCALE_ID, useValue:'es'}],
+  providers: [ClienteService ,{provide: LOCALE_ID, useValue:'es'},MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
