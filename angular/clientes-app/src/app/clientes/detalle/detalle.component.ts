@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
+
 
 @Component({
   selector: 'detalle-cliente',
@@ -14,13 +16,15 @@ export class DetalleComponent implements OnInit {
   //En el Detalle se necesitara datos del objeto Cliente
   cliente:Cliente
   titulo:String="Detalle del cliente"
+  //private fotoSeleccionada:File
+  fotoSeleccionada:File
 
   //Inyectar ClienteServic y ActivatedRoute via constructor
   //ActivatedRoute: Para editar un cliente, ver cuando cambia el parametro del ID.
-  constructor(private clienteService:ClienteService, private activatedRoute:ActivatedRoute) { }
+  constructor(private clienteService:ClienteService,
+    private activatedRoute:ActivatedRoute) { }
 
-  ngOnInit(): void {
-    //Subscrbir para obter el ID del cliente.
+  //Subscrbir para obter el ID del cliente.
     /*
     Observable=this.activatedRoute.paramMap
       clientes/ver/1  <-
@@ -43,6 +47,8 @@ export class DetalleComponent implements OnInit {
       Cliente_3
       ...
     */
+
+  ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params=>{
       let id=+params.get('id')
       if (id) {
@@ -52,6 +58,30 @@ export class DetalleComponent implements OnInit {
         })
       }
     })
+  }
+
+  /*$event, atraves del evento se accede al archivo enviado*/
+  seleccionarFoto(event){
+    this.fotoSeleccionada=event.target.files[0] //Files tiene un arreglo de archivos. En ese caso solo se esta subiendo una imagen.
+    console.log(this.fotoSeleccionada)
+    if (this.fotoSeleccionada.type.indexOf('image')<0) {
+      Swal.fire('Error Seleccionar Imagen','El archivo debe ser del tipo imagen','error')
+      this.fotoSeleccionada=null
+    }
+  }
+
+  subirFoto(){
+    if(!this.fotoSeleccionada){
+      Swal.fire('Error upload','Debe seleccionar una foto','error')
+    }else{
+      this.clienteService.subirFoto(this.fotoSeleccionada,this.cliente.id)
+      .subscribe(cliente=>{
+        //Obtener el cliente desde el flujo.
+        //Susbcribir el cambio de la foto del cliente. Actualizar.
+        this.cliente=cliente;
+        Swal.fire('La foto se ha subido completamente!',`La foto se ha subido con exito: ${this.cliente.foto}`,'success')
+      })
+    }
   }
 
 }

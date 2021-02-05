@@ -47,6 +47,7 @@ export class ClienteService {
     //  );
   //}
 
+  //Servicio para obtener varios clientes
   //getClientes():Observable<Cliente[]>{
   getClientes(page:number):Observable<any>{ //El json es generico
      return this.http.get(this.urlEndPoint+'/page/'+page).pipe(
@@ -112,6 +113,7 @@ export class ClienteService {
   //   )
   // }
 
+  //Servicio para crear un cliente
   //Metodo que retorna un observable de los tipos Cliente pero con Transformacion
   create(cliente:Cliente):Observable<Cliente>{
     return this.http.post<any>(this.urlEndPoint, cliente, {headers:this.httpHeaders})
@@ -136,6 +138,7 @@ export class ClienteService {
   //   return this.http.get<Cliente>(this.urlEndPoint+'/'+id).
   // }
 
+  //Servicio para obtener un cliente por el ID
   getCliente(id): Observable<Cliente>{
     //pipe es una funcion que permite transformar datos.
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`)
@@ -179,6 +182,7 @@ export class ClienteService {
   //   )
   // }
 
+  //Servicio para actualizar un cliente
   //Metodo que retonar un observable de los Cliente pero con Transformacion
   update(cliente:Cliente):Observable<Cliente>{
     return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers:this.httpHeaders})
@@ -197,6 +201,7 @@ export class ClienteService {
     )
   }
 
+  //Servicio para eliminar un cliente
   delete(id):Observable<Cliente>{
     //No es necesario pasar las cabeceras
     //return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers:this.httpHeaders})
@@ -205,6 +210,23 @@ export class ClienteService {
       catchError(e=>{
         console.error(e.error.mensaje)
         //Swal.fire('Error al eliminar', e.error.mensaje,'error')
+        Swal.fire(e.error.mensaje,e.error.error, 'error')
+        return throwError(e)
+      })
+    )
+  }
+
+  //Servicio para subir fotos
+  subirFoto(archivo:File, id):Observable<Cliente>{
+    let formData=new FormData()
+    formData.append("archivo",archivo)
+    formData.append("id",id)
+
+    //Convertir el flujo al tipo cliente
+    return this.http.post(`${this.urlEndPoint}/upload`,formData).pipe(
+      map((response:any)=>response.cliente as Cliente),
+      catchError(e=>{
+        console.error(e.error.mensaje)
         Swal.fire(e.error.mensaje,e.error.error, 'error')
         return throwError(e)
       })
