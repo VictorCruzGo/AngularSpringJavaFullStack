@@ -20,7 +20,8 @@ import localES from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule} from '@angular/material/datepicker'; //Angular Material
-import { MatNativeDateModule } from '@angular/material/core'; //Angular Material
+import { MatNativeDateModule } from '@angular/material/core';
+import { DetalleComponent } from './clientes/detalle/detalle.component'; //Angular Material
 
 //Formato de fecha en ES
 registerLocaleData(localES,'es')
@@ -33,7 +34,8 @@ const routes: Routes=[
   {path:'clientes',component: ClientesComponent},
   {path:'clientes/page/:page',component: ClientesComponent},
   {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent.
-  {path:'clientes/form/:id', component:FormComponent}
+  {path:'clientes/form/:id', component:FormComponent},
+  {path:'clientes/ver/:id', component:DetalleComponent} //Componente subir imagen
 ];
 
 @NgModule({
@@ -45,7 +47,8 @@ const routes: Routes=[
     DirectivaComponent,
     ClientesComponent,
     FormComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    DetalleComponent
   ],
   imports: [
     CommonModule,
