@@ -56,6 +56,7 @@ export class FormComponent implements OnInit {
   public create():void{
     console.log("Clicked!!")
     console.log(this.cliente)
+    console.log(this.cliente.createAt)
     //El observable suscribe al observer (metodo create()) para que el observador escuche los cambios del observable
     this.clienteService.create(this.cliente).subscribe(
       //Exito, primer argumento.

@@ -104,7 +104,7 @@ public class ClienteRestController {
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {		
 		Cliente clienteNew=null;
 		Map<String, Object> response=new HashMap<>();		
-		
+		System.out.println("Backend: Cliente.createAt="+cliente.getCreateAt());
 		if (result.hasErrors()) {
 			
 			/*
