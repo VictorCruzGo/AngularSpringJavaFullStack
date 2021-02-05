@@ -55,6 +55,8 @@ public class Cliente implements Serializable {
 //		createAt=new Date();
 //	}
 
+	private String foto;
+		
 	public Long getId() {
 		return id;
 	}
@@ -93,6 +95,14 @@ public class Cliente implements Serializable {
 
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 }
