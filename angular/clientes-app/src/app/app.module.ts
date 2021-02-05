@@ -19,8 +19,8 @@ import { FormsModule} from '@angular/forms';
 import localES from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule} from '@angular/material/datepicker'; //Angular Material
+import { MatNativeDateModule } from '@angular/material/core'; //Angular Material
 
 //Formato de fecha en ES
 registerLocaleData(localES,'es')

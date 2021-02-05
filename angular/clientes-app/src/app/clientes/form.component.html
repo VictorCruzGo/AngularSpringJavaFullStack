@@ -78,6 +78,7 @@
         <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
         <div class="col-sm-6">
           <!-- <input type="date" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" /> -->
+          <!--Calendar of Angular Material-->
           <input matInput [matDatepicker]="picker" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="display: inline; width: 300px;">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
