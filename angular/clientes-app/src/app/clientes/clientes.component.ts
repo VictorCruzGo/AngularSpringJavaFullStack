@@ -4,6 +4,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { ModalService } from './detalle/modal.service';
 //import { CLIENTES } from './clientes.json';
 
 @Component({
@@ -26,6 +27,7 @@ export class ClientesComponent implements OnInit {
   //constructor(private clienteService:ClienteService){}
   constructor(
     private clienteService: ClienteService,
+    private modalService: ModalService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -98,5 +100,6 @@ export class ClientesComponent implements OnInit {
 
   abrirModal(cliente:Cliente){
     this.clienteSeleccionado=cliente
+    this.modalService.abrirModal()
   }
 }
