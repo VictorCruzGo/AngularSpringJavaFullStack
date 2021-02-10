@@ -15,6 +15,7 @@ import { ClienteService } from '../cliente.service';
 //DetalleComponente, mostrara informacion del cliente con la opcion de subir imagen.
 export class DetalleComponent implements OnInit {
   //En el Detalle se necesitara datos del objeto Cliente
+  //@Input permite recibir datos desde la vista de otro componente
   @Input() cliente:Cliente
   titulo:String="Detalle del cliente"
   //private fotoSeleccionada:File
