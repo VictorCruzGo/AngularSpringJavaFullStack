@@ -91,7 +91,8 @@ export class DetalleComponent implements OnInit {
           let response:any=event.body
           this.cliente=response.cliente as Cliente
 
-          this.modalService.notificarUpload.emit(this.cliente)
+          //Publicar
+          this.modalService.notificarUpload.emit(this.cliente) //Emitir el cliente actualizado
 
           Swal.fire('La foto se ha subido completamente!',response.mensaje,'success')
         }

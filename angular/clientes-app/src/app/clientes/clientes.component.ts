@@ -13,9 +13,9 @@ import { ModalService } from './detalle/modal.service';
 })
 export class ClientesComponent implements OnInit {
   //Atributos
-  clientes: Cliente[]
-  paginador:any
-  clienteSeleccionado:Cliente
+  clientes: Cliente[];
+  paginador: any;
+  clienteSeleccionado: Cliente;
   //private clienteService:ClienteService;//1
 
   //1ra forma de inyectar un servicio
@@ -67,24 +67,27 @@ export class ClientesComponent implements OnInit {
         )
         .subscribe(
           //Suscribir al observable
-          (response) => {//1ra forma Observador
-            this.clientes = response.content as Cliente[]
-            this.paginador=response //response contiene todos los atributos del paginador
+          (response) => {
+            //1ra forma Observador
+            this.clientes = response.content as Cliente[];
+            this.paginador = response; //response contiene todos los atributos del paginador
           }
           //(clientes)=>{this.clientes=clientes} //2da forma
           //function clientes{this.clientes=clientes} //3ra forma
         );
     });
 
-    this.modalService.notificarUpload.subscribe(cliente=>{
-      this.clientes=this.clientes.map(clienteOriginal=>{
-        if (cliente.id==clienteOriginal.id) {
-          clienteOriginal.foto=cliente.foto
+    //Suscribir
+    //Suscribir los eventos y observables
+    //Obtener el cliente con la foto actualizada
+    this.modalService.notificarUpload.subscribe((clienteEmitido) => {
+      this.clientes = this.clientes.map((clienteOriginal) => {
+        if (clienteEmitido.id == clienteOriginal.id) {
+          clienteOriginal.foto = clienteEmitido.foto;
         }
-        return clienteOriginal
-      })
-    })
-
+        return clienteOriginal;
+      });
+    });
   }
 
   delete(cliente: Cliente): void {
@@ -108,8 +111,8 @@ export class ClientesComponent implements OnInit {
     });
   }
 
-  abrirModal(cliente:Cliente){
-    this.clienteSeleccionado=cliente
-    this.modalService.abrirModal()
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
   }
 }

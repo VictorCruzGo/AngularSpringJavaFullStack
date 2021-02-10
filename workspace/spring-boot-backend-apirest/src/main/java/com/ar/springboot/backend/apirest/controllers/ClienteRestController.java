@@ -1,14 +1,9 @@
 package com.ar.springboot.backend.apirest.controllers;
 
-import java.io.File;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -17,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,17 +35,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ar.springboot.backend.apirest.models.entity.Cliente;
 import com.ar.springboot.backend.apirest.models.services.IClienteService;
+import com.ar.springboot.backend.apirest.models.services.IUploadFileService;
 
 //CORS, permitir al domino de Angular acceder a todos los metodos del servicio REST.
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api") //endpoint
 public class ClienteRestController {
-	private final Logger log=LoggerFactory.getLogger(ClienteRestController.class);
+	//private final Logger log=LoggerFactory.getLogger(ClienteRestController.class);
 	//Busca el primer candidato, una clase concreta que implemente la intefaz IClienteService (en este clase la clase es ClienteServiceImpl)
 	//En caso de existir dos clases que implmenten la interfaz IClienteService, usar un Qualifier
 	@Autowired
 	private IClienteService clienteService;
+	
+	@Autowired
+	private IUploadFileService uploadFileService;
 	
 	@GetMapping("/clientes")
 	public List<Cliente> index(){
@@ -216,6 +214,7 @@ public class ClienteRestController {
 	 * id) { clienteService.delete(id); }
 	 */
 	
+	/*
 	@DeleteMapping("/clientes/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -243,8 +242,33 @@ public class ClienteRestController {
 		//return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 		
+	}*/
+	
+	@DeleteMapping("/clientes/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		Map<String,Object> response=new HashMap<>();
+		
+		try {
+			Cliente cliente=clienteService.findById(id);
+			String nombreFotoAnterior=cliente.getFoto();
+			
+			uploadFileService.eliminar(nombreFotoAnterior);
+									
+			clienteService.delete(id);	
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar el cliente de la base de datos [backend]");
+			response.put("error",e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "El cliente eliminado con exito! [backend]");
+		//return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response,HttpStatus.OK);
+		
 	}
 	
+/*	
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") long id){
 		//Map<String, Object> response=new HashMap<>();
@@ -283,9 +307,46 @@ public class ClienteRestController {
 		return new ResponseEntity<>(response,HttpStatus.CREATED);
 		//return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);				
 	}
+*/
+	
+	@PostMapping("/clientes/upload")
+	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") long id){
+		//Map<String, Object> response=new HashMap<>();
+		Map<String, Object> response=new HashMap<String,Object>();	
+		
+		Cliente cliente=clienteService.findById(id);
+		
+		if(!archivo.isEmpty()) {
+			String nombreArchivo=null;
+			try {
+				nombreArchivo=uploadFileService.copiar(archivo);
+			} catch (Exception e) {
+				response.put("mensaje", "Error al subir la imagen del cliente");
+				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}		
+			
+			String nombreFotoAnterior=cliente.getFoto();
+			
+			uploadFileService.eliminar(nombreFotoAnterior);
+						
+			
+			cliente.setFoto(nombreArchivo);
+			
+			clienteService.save(cliente);
+			
+			response.put("cliente", cliente);
+			response.put("mensaje","Has subido correctamente la imagen: "+nombreArchivo);
+		}		
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
+		//return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);				
+	}
+	
 	
 	/*El recurso se va a guardar en el responseEntity dentro del body de la respuesta*/
 	/*nombreFoto:.+ = expresion regular que indica que el parametro va contener un . y la extension*/
+	
+	/*
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
 		Path rutaArchivo=Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
@@ -310,6 +371,22 @@ public class ClienteRestController {
 			log.error("Error no se pudo cargar la imagen:"+nombreFoto);
 			
 			//throw new RuntimeException("Error no se pudo carga la imagen: "+nombreFoto);
+		}
+		
+		HttpHeaders cabecera=new HttpHeaders();
+		//attchment= Va a forzar que la imagen se descargue.
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION,"attchment; filename=\""+recurso.getFilename()+"\"");
+		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+	}*/
+	
+	@GetMapping("/uploads/img/{nombreFoto:.+}")
+	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+		Resource recurso=null;
+		
+		try {
+			recurso=uploadFileService.cargar(nombreFoto);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 		
 		HttpHeaders cabecera=new HttpHeaders();
