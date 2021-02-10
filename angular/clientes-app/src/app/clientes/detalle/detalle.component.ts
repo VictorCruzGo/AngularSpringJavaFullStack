@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Cliente } from '../cliente';
@@ -15,7 +15,7 @@ import { ClienteService } from '../cliente.service';
 //DetalleComponente, mostrara informacion del cliente con la opcion de subir imagen.
 export class DetalleComponent implements OnInit {
   //En el Detalle se necesitara datos del objeto Cliente
-  cliente:Cliente
+  @Input() cliente:Cliente
   titulo:String="Detalle del cliente"
   //private fotoSeleccionada:File
   fotoSeleccionada:File
@@ -51,15 +51,16 @@ export class DetalleComponent implements OnInit {
     */
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params=>{
-      let id=+params.get('id')
-      if (id) {
-        //Susbcribir para obtener datos del cliente
-        this.clienteService.getCliente(id).subscribe(cliente=>{
-        this.cliente=cliente
-        })
-      }
-    })
+    // Ya no es necesario porque se pasaran los datos desde 'clientes' a 'detalle'
+    // this.activatedRoute.paramMap.subscribe(params=>{
+    //   let id=+params.get('id')
+    //   if (id) {
+    //     //Susbcribir para obtener datos del cliente
+    //     this.clienteService.getCliente(id).subscribe(cliente=>{
+    //     this.cliente=cliente
+    //     })
+    //   }
+    // })
   }
 
   /*$event, atraves del evento se accede al archivo enviado*/

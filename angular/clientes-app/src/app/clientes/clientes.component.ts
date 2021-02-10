@@ -14,6 +14,7 @@ export class ClientesComponent implements OnInit {
   //Atributos
   clientes: Cliente[]
   paginador:any
+  clienteSeleccionado:Cliente
   //private clienteService:ClienteService;//1
 
   //1ra forma de inyectar un servicio
@@ -93,5 +94,9 @@ export class ClientesComponent implements OnInit {
         });
       }
     });
+  }
+
+  abrirModal(cliente:Cliente){
+    this.clienteSeleccionado=cliente
   }
 }
