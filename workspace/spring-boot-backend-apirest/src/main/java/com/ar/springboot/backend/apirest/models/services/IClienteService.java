@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ar.springboot.backend.apirest.models.entity.Cliente;
+import com.ar.springboot.backend.apirest.models.entity.Region;
 
 //Interfaz del services
 //Metodos del Crud
@@ -15,4 +16,5 @@ public interface IClienteService {
 	public Cliente findById(Long id);
 	public Cliente save(Cliente cliente);
 	public void delete(Long id);
+	public List<Region> findAllRegiones();
 }

@@ -78,8 +78,8 @@ export class ClientesComponent implements OnInit {
     });
 
     //Suscribir
-    //Suscribir los eventos y observables
-    //Obtener el cliente con la foto actualizada
+    //El observable 'notificarUpload' suscribe a un observador para actualizar la foto del cliente.
+    //Obtener el cliente con la foto actualizada.
     this.modalService.notificarUpload.subscribe((clienteEmitido) => {
       this.clientes = this.clientes.map((clienteOriginal) => {
         if (clienteEmitido.id == clienteOriginal.id) {
