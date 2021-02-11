@@ -22,6 +22,7 @@ export class DetalleComponent implements OnInit {
   //private fotoSeleccionada:File
   fotoSeleccionada:File
   progreso:number=0
+  _modalService:ModalService
 
 
   //Inyectar ClienteServic y ActivatedRoute via constructor
@@ -29,7 +30,9 @@ export class DetalleComponent implements OnInit {
   constructor(
     private clienteService:ClienteService,
     private modalService:ModalService,
-    private activatedRoute:ActivatedRoute) { }
+    private activatedRoute:ActivatedRoute) {
+      this._modalService=modalService
+     }
 
   //Subscrbir para obter el ID del cliente.
     /*
@@ -92,7 +95,7 @@ export class DetalleComponent implements OnInit {
           this.cliente=response.cliente as Cliente
 
           //Publicar
-          this.modalService.notificarUpload.emit(this.cliente) //Emitir el cliente actualizado
+          this._modalService.notificarUpload.emit(this.cliente) //Emitir el cliente actualizado
 
           Swal.fire('La foto se ha subido completamente!',response.mensaje,'success')
         }
@@ -115,7 +118,7 @@ export class DetalleComponent implements OnInit {
   }
 
   cerrarModal(){
-    this.modalService.cerrarModal()
+    this._modalService.cerrarModal()
     this.fotoSeleccionada=null
     this.progreso=0
   }

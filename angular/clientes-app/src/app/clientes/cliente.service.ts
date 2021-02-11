@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { formatDate, DatePipe} from '@angular/common';
 import { Cliente } from './cliente';
 import { CLIENTES } from './clientes.json';
-import { of, Observable, throwError} from 'rxjs';
+import { of, Observable, throwError, ObservableLike} from 'rxjs';
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Region } from './region';
 
 //El decorador indica que tipo clase representa en angular.
 //@Inyectable=Clase Servicio.
@@ -23,6 +24,10 @@ export class ClienteService {
 
   //Inyectar el HttpClient via constructor.
   constructor(private http:HttpClient, private router:Router) { }
+
+  getRegiones(): Observable<Region[]>{
+    return this.http.get<Region[]>(this.urlEndPoint+'regiones');
+  }
 
   //Observable=Stream de datos
   //getClientes():Observable<Cliente[]>{

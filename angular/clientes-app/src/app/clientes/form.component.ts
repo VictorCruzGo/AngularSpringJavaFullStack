@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'; //ActivatedRoute, obti
 import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
+import { Region } from './region';
 
 @Component({
   selector: 'app-form',
@@ -14,6 +15,7 @@ export class FormComponent implements OnInit {
   //binding = poblar/enlazar en ambas direcciones.
   //El formulario esta mapeado a un objeto. El objeto es un atributo en la clase componente.
   public cliente:Cliente=new Cliente()
+  regiones:Region[]
   public titulo:string="Crear cliente"
   public errores:string[]
 
@@ -92,6 +94,11 @@ export class FormComponent implements OnInit {
           (cliente)=>this.cliente=cliente
         )
       }
+    })
+
+
+    this.clienteService.getRegiones().subscribe(regiones=>{
+      this.regiones=regiones
     })
   }
 
