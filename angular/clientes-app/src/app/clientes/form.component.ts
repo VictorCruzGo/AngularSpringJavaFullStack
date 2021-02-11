@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; //ActivatedRoute, obtine informacion de la ruta activa. Ej. parametros
+import { ConsoleReporter } from 'jasmine';
 import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
@@ -94,12 +95,12 @@ export class FormComponent implements OnInit {
           (cliente)=>this.cliente=cliente
         )
       }
-    })
+    });
 
 
     this.clienteService.getRegiones().subscribe(regiones=>{
       this.regiones=regiones
-    })
+    });
   }
 
   //1 forma
@@ -116,6 +117,7 @@ export class FormComponent implements OnInit {
   //2 forma
   //Con objeto Cliente transformado
   update():void{
+    console.log(this.cliente)
     this.clienteService.update(this.cliente)
     .subscribe(
     //Exito. Primer parametro.
@@ -131,6 +133,11 @@ export class FormComponent implements OnInit {
     }
     //Completo. Tercer parametro.
     )
+  }
+
+
+  compararRegion(o1:Region,o2:Region):boolean{
+    return o1==null || o2==null? false: o1.id===o2.id;
   }
 
 }
