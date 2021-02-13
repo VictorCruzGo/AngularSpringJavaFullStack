@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ar.springboot.backend.apirest.models.dao.IClienteDao;
+import com.ar.springboot.backend.apirest.models.dao.IFacturaDao;
 import com.ar.springboot.backend.apirest.models.entity.Cliente;
+import com.ar.springboot.backend.apirest.models.entity.Factura;
 import com.ar.springboot.backend.apirest.models.entity.Region;
 
 //@Service, marca la clase como un componenete de servicio en spring. Tambien se guarda en el contenedor de spring.	
@@ -20,6 +22,8 @@ public class ClienteServiceImpl implements IClienteService {
 	//Inyectar Daos - ClienteDao
 	@Autowired
 	private IClienteDao clienteDao;
+	@Autowired
+	private IFacturaDao facturaDao;
 	
 	//@Transactional, permite manejar transaccion.
 	//Los metodos del CrudRepository ya vienen con transaccionalidad
@@ -60,5 +64,24 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional(readOnly = true)
 	public List<Region> findAllRegiones() {		
 		return clienteDao.findAllRegiones();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Factura findFacturaById(Long id) {
+		return facturaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Factura saveFactura(Factura factura) {
+		return facturaDao.save(factura);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFacturaByid(Long id) {
+		facturaDao.deleteById(id);
+		
 	}	
 }

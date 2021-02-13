@@ -21,7 +21,8 @@ import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule} from '@angular/material/datepicker'; //Angular Material
 import { MatNativeDateModule } from '@angular/material/core';
-import { DetalleComponent } from './clientes/detalle/detalle.component'; //Angular Material
+import { DetalleComponent } from './clientes/detalle/detalle.component';
+import { DetalleFacturaComponent } from './facturas/detalle-factura.component'; //Angular Material
 
 //Formato de fecha en ES
 registerLocaleData(localES,'es')
@@ -35,7 +36,8 @@ const routes: Routes=[
   {path:'clientes/page/:page',component: ClientesComponent},
   {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent.
   {path:'clientes/form/:id', component:FormComponent},
-  {path:'clientes/ver/:id', component:DetalleComponent} //Componente subir imagen
+  {path:'clientes/ver/:id', component:DetalleComponent}, //Componente subir imagen
+  {path:'facturas/:id',component:DetalleFacturaComponent}
 ];
 
 @NgModule({
@@ -48,7 +50,8 @@ const routes: Routes=[
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    DetalleComponent
+    DetalleComponent,
+    DetalleFacturaComponent
   ],
   imports: [
     CommonModule,
