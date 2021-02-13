@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "facturas")
 public class Factura implements Serializable {
@@ -36,17 +38,20 @@ public class Factura implements Serializable {
 	private Date createAt;
 
 	@ManyToOne(fetch = FetchType.LAZY) // Muchas facturas estan asociadas a un solo cliente
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler","facturas"})
 	private Cliente cliente;
 
 	/* Bidireccional Factura-ItemFactura */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "factura", cascade = CascadeType.ALL)
-	private List<ItemFactura> items;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "factura", cascade = CascadeType.ALL)
+//	@JsonIgnoreProperties({"hibernateLazyInitializer","handler","factura"})
+//	private List<ItemFactura> items;
 
 	/* Unidireccinoal Factura-ItemFactura */
 	// Es necesario indicar la columna de la tabla ItemFactura
-	// @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-	// @JoinColumn(name="factura_id")
-	// private List<ItemFactura> items;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@JoinColumn(name="factura_id") //Al indicar la columna @JoinColumn, automaticamente se creara en la tabla 'facturas_items' la columna 'factura_id'
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	private List<ItemFactura> items;
 
 	@PrePersist
 	public void prePersist() {

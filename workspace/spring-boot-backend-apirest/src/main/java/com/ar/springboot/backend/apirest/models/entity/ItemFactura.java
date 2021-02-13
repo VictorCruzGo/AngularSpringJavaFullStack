@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "facturas_items")
 public class ItemFactura implements Serializable {
@@ -20,11 +22,13 @@ public class ItemFactura implements Serializable {
 	private Integer cantidad;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private Producto producto;
 
 	/* Bidireccional Factura-ItemFactura */
-	@ManyToOne(fetch = FetchType.LAZY) //
-	private Factura factura;
+//	@JsonIgnoreProperties({"hibernateLazyInitializer","handler","facturas_items","cliente"})
+//	@ManyToOne(fetch = FetchType.LAZY) //
+//	private Factura factura;
 
 	/* Unidireccion Factura-ItemFactura */
 	// No es necesario declarar el atributo factura.
@@ -66,13 +70,13 @@ public class ItemFactura implements Serializable {
 		this.producto = producto;
 	}
 
-	public Factura getFactura() {
-		return factura;
-	}
-
-	public void setFactura(Factura factura) {
-		this.factura = factura;
-	}
+//	public Factura getFactura() {
+//		return factura;
+//	}
+//
+//	public void setFactura(Factura factura) {
+//		this.factura = factura;
+//	}
 
 	public Double calcularImporte() {
 		return cantidad.doubleValue();

@@ -66,6 +66,7 @@ public class Cliente implements Serializable {
 	private Region region;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "cliente" )//cascade, cada vez que eliminemos un cliente, tambien va ha eliminar las facturas.
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler","cliente"})
 	private List<Factura> facturas;
 
 	//Antes de que se haga un save o persist incluir la fecha en el atribuo createAt
