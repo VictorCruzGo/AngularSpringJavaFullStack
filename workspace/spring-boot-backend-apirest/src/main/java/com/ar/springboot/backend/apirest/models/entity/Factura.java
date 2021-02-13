@@ -23,7 +23,6 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="facturas")
 public class Factura implements Serializable {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,12 +33,12 @@ public class Factura implements Serializable {
 	private Date createAt;
 
 	@ManyToOne(fetch = FetchType.LAZY) //Muchas Facturas estan asociadas a un solo Cliente
-	//@JoinColumn(name = "cliente_id") //La union de columnas se realiza automaticamente. Solo agregar en caso de cambiar el nombre de la columna foranea.
+	//@JoinColumn(name = "cliente_id") //Opcional. La union de columnas se realiza automaticamente. Solo agregar en caso de cambiar el nombre de la columna foranea.
 	private Cliente cliente;//Una factura puede tener un solo Cliente
 	
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)//cascade, al borrar una factura se borran todos los items
-	@JoinColumn(name="factura_id")//La columna foranea se va a crear en la tabla Facturas_items. 
+	@JoinColumn(name="factura_id")//Obligatorio. La columna foranea se va a crear en la tabla Facturas_items./ 
 	private List<ItemFactura> items;
 	
 	
@@ -101,4 +100,6 @@ public class Factura implements Serializable {
 		
 		return total;
 	}
+	
+	private static final long serialVersionUID = 1L;
 }

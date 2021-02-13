@@ -68,11 +68,13 @@ public class Cliente implements Serializable {
 	
 	@NotNull(message="La region no puede ser vacia")
 	@ManyToOne(fetch = FetchType.LAZY)	//Muchos clientes en una sola region//LAZY, cuando se llama a la region recien se invoca.
-	@JoinColumn(name="region_id")
+	//@JoinColumn(name="region_id")//Opcional
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})//Omitir los atributos en la generacion del Json//El proxy de Lazy genera atributos adicionales
 	private Region region;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)//mappedBy para que la relacion sea bidereccional//cascade, cada vez que eliminemos un cliente se eliminar las facturas hijas.
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)//mappedBy para que la relacion sea bidereccional//cascade, cada vez que eliminemos un cliente se eliminar las facturas hijas.
+	//@JoinColumn(name="cliente_id")//Opcional. La union de columnas se realiza automaticamente. Solo agregar en caso de cambiar el nombre de la columna foranea.
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//mappedBy para que la relacion sea bidereccional//cascade, cada vez que eliminemos un cliente se eliminar las facturas hijas.
 	private List<Factura> facturas;
 			
 	public Cliente() {

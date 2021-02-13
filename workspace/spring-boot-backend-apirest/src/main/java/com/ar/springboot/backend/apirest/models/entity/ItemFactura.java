@@ -19,7 +19,7 @@ public class ItemFactura implements Serializable {
 	private Long id;
 	private Integer cantidad;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="producto_id") //No es necesario especificar de forma explicita la columna foranea.
+	//@JoinColumn(name="producto_id") //Opcional. No es necesario especificar de forma explicita la columna foranea.
 	private Producto producto;
 
 	public Long getId() {
