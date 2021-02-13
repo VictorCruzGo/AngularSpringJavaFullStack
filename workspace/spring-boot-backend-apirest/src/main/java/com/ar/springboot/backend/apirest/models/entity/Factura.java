@@ -21,65 +21,72 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="facturas")
+@Table(name = "facturas")
 public class Factura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String descripcion;
+
 	private String observacion;
-	@Column(name="create_at")
-	@Temporal(TemporalType.DATE)//Formato
+
+	@Column(name = "create_at")
+	@Temporal(TemporalType.DATE) // Formato
 	private Date createAt;
 
-	@ManyToOne(fetch = FetchType.LAZY) //Muchas Facturas estan asociadas a un solo Cliente
-	//@JoinColumn(name = "cliente_id") //Opcional. La union de columnas se realiza automaticamente. Solo agregar en caso de cambiar el nombre de la columna foranea.
-	private Cliente cliente;//Una factura puede tener un solo Cliente
-	
-	
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)//cascade, al borrar una factura se borran todos los items
-	@JoinColumn(name="factura_id")//Obligatorio. La columna foranea se va a crear en la tabla Facturas_items./ 
+	@ManyToOne(fetch = FetchType.LAZY) // Muchas facturas estan asociadas a un solo cliente
+	private Cliente cliente;
+
+	/* Bidireccional Factura-ItemFactura */
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "factura", cascade = CascadeType.ALL)
 	private List<ItemFactura> items;
-	
-	
-	public Factura() {
-		items=new ArrayList<>();
-	}
+
+	/* Unidireccinoal Factura-ItemFactura */
+	// Es necesario indicar la columna de la tabla ItemFactura
+	// @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	// @JoinColumn(name="factura_id")
+	// private List<ItemFactura> items;
 
 	@PrePersist
 	public void prePersist() {
-		this.createAt=new Date();
+		this.createAt = new Date();
 	}
-	
+
+	public Factura() {
+		this.items = new ArrayList<>();
+	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
 	public String getObservacion() {
 		return observacion;
 	}
+
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
+
 	public Date getCreateAt() {
 		return createAt;
 	}
+
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
-	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 
 	public List<ItemFactura> getItems() {
@@ -89,17 +96,21 @@ public class Factura implements Serializable {
 	public void setItems(List<ItemFactura> items) {
 		this.items = items;
 	}
-	
+
 	public Double getTotal() {
-		Double total=0.00;
-		//for (ItemFactura item:items) {
-			//total+=item.getImporte();
-		//}		
-		
-		total= items.stream().mapToDouble(item->item.getImporte()).sum();
-		
+		Double total = 0.00;
+		total = items.stream().mapToDouble(item -> item.getImporte()).sum();
+
 		return total;
 	}
-	
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	private static final long serialVersionUID = 1L;
 }

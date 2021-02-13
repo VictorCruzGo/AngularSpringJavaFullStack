@@ -18,9 +18,25 @@ public class ItemFactura implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer cantidad;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name="producto_id") //Opcional. No es necesario especificar de forma explicita la columna foranea.
 	private Producto producto;
+
+	/* Bidireccional Factura-ItemFactura */
+	@ManyToOne(fetch = FetchType.LAZY) //
+	private Factura factura;
+
+	/* Unidireccion Factura-ItemFactura */
+	// No es necesario declarar el atributo factura.
+
+	public ItemFactura() {
+
+	}
+
+	public ItemFactura(Long id, Integer cantidad) {
+		this.id = id;
+		this.cantidad = cantidad;
+	}
 
 	public Long getId() {
 		return id;
@@ -38,10 +54,10 @@ public class ItemFactura implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Double calcularImporte() {
-		return cantidad.doubleValue();
+	public Double getImporte() {
+		return 0.0;
 	}
-	
+
 	public Producto getProducto() {
 		return producto;
 	}
@@ -49,12 +65,17 @@ public class ItemFactura implements Serializable {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
-	
-	public Double getImporte() {
-		return cantidad.doubleValue()*producto.getPrecio();
+
+	public Factura getFactura() {
+		return factura;
 	}
 
+	public void setFactura(Factura factura) {
+		this.factura = factura;
+	}
 
-	private static final long serialVersionUID = 1L;
+	public Double calcularImporte() {
+		return cantidad.doubleValue();
+	}
 
 }

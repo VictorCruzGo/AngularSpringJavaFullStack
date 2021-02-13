@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,8 +37,7 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	
+		
 	//@Column,se puede omitir si el campo tiene el mismo nombre del atributo
 	//javax.validation.constraint para versiones superior 2 de spring boot	
 	@NotEmpty(message="No puede estar vacio") 
@@ -58,29 +58,26 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.DATE)//Transforma la Data de Java a Date de Mysql
 	private Date createAt;
 	
-	//Antes de que se haga un save o persist incluir la fecha en el atribuo createAt
-//	@PrePersist
-//	public void prePersist() {
-//		createAt=new Date();
-//	}
-
 	private String foto;
 	
 	@NotNull(message="La region no puede ser vacia")
 	@ManyToOne(fetch = FetchType.LAZY)	//Muchos clientes en una sola region//LAZY, cuando se llama a la region recien se invoca.
-	//@JoinColumn(name="region_id")//Opcional
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})//Omitir los atributos en la generacion del Json//El proxy de Lazy genera atributos adicionales
 	private Region region;
 	
-	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)//mappedBy para que la relacion sea bidereccional//cascade, cada vez que eliminemos un cliente se eliminar las facturas hijas.
-	//@JoinColumn(name="cliente_id")//Opcional. La union de columnas se realiza automaticamente. Solo agregar en caso de cambiar el nombre de la columna foranea.
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//mappedBy para que la relacion sea bidereccional//cascade, cada vez que eliminemos un cliente se eliminar las facturas hijas.
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "cliente" )//cascade, cada vez que eliminemos un cliente, tambien va ha eliminar las facturas.
 	private List<Factura> facturas;
-			
+
+	//Antes de que se haga un save o persist incluir la fecha en el atribuo createAt
+	@PrePersist
+	public void prePersist() {
+		createAt=new Date();
+	}
+
 	public Cliente() {
 		this.facturas=new ArrayList<>();
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -144,6 +141,6 @@ public class Cliente implements Serializable {
 	public void setFacturas(List<Factura> facturas) {
 		this.facturas = facturas;
 	}
-
+		
 	
 }
