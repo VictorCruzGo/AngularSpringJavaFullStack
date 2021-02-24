@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { ClienteService } from '../clientes/cliente.service';
-import { Factura } from './models/factura';
+import { Component, OnInit } from '@angular/core'
+import { FormControl } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router'
+import { Observable } from 'rxjs'
+import { flatMap, map, startWith } from 'rxjs/operators'
+import { ClienteService } from '../clientes/cliente.service'
+import { Factura } from './models/factura'
+import { Producto } from './models/producto'
+import {FacturaService} from './services/factura.service'
 
 @Component({
   selector: 'app-facturas',
@@ -14,11 +16,13 @@ export class FacturasComponent implements OnInit {
    titulo:string='Nueva Factura'
    factura:Factura=new Factura()
    autocompleteControl = new FormControl();
-   productos: string[] = ['TV', 'radio', 'television'];
-   productosFiltrados: Observable<string[]>;
+   //productos: string[] = ['TV', 'radio', 'television'];
+   //productosFiltrados: Observable<string[]>;
+   productosFiltrados: Observable<Producto[]>;
 
    constructor(
-     private clienteService:ClienteService,
+    private facturaService:FacturaService,
+    private clienteService:ClienteService,
      private activatedRoute:ActivatedRoute) {
 
      }
@@ -31,17 +35,31 @@ export class FacturasComponent implements OnInit {
       )
     })
 
+    // this.productosFiltrados = this.autocompleteControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this.filtrar(value))
+    // )
+
     this.productosFiltrados = this.autocompleteControl.valueChanges
     .pipe(
-      startWith(''),
-      map(value => this.filtrar(value))
+      //Convertir los datos de un flujo con los datos que provienen de otro flujo
+      map(value=>typeof value==='string'?value:value.nombre),//Convertir el objeto producto a un objeto string
+      flatMap(value => value?this.filtrar(value):[])//Aplanar los valores de un observable dentro de otro observable.
     )
   }
 
-  private filtrar(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  // private filtrar(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.productos.filter(option => option.toLowerCase().includes(filterValue));
+  // }
 
-    return this.productos.filter(option => option.toLowerCase().includes(filterValue));
+  private filtrar(value: string): Observable<Producto[]> {
+    const filterValue = value.toLowerCase();
+    return this.facturaService.filtrarProductos(filterValue);
   }
 
+  mostrarNombre(producto?:Producto):string|undefined{//recibe un parametro opcional
+    return producto?producto.nombre:undefined
+  }
 }

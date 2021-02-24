@@ -93,5 +93,6 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional(readOnly = true)
 	public List<Producto> findProductoByNombre(String term) {
 		return productoDao.findByNombre(term);
+		//return productoDao.findByNombreContainingIgnoreCase(term);
 	}	
 }
