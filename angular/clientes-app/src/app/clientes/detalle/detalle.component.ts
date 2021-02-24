@@ -32,7 +32,7 @@ export class DetalleComponent implements OnInit {
   constructor(
     private facturaService:FacturaService,
     private clienteService:ClienteService,
-    private modalService:ModalService,
+    public modalService:ModalService,
     private activatedRoute:ActivatedRoute) {
       this._modalService=modalService
      }

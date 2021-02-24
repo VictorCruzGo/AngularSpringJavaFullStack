@@ -39,7 +39,7 @@ import com.ar.springboot.backend.apirest.models.services.IClienteService;
 import com.ar.springboot.backend.apirest.models.services.IUploadFileService;
 
 //CORS, permitir al domino de Angular acceder a todos los metodos del servicio REST.
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= {"http://localhost:4200","*"})
 @RestController
 @RequestMapping("/api") //endpoint
 public class ClienteRestController {
