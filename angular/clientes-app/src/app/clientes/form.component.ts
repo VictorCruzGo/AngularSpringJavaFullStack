@@ -117,6 +117,8 @@ export class FormComponent implements OnInit {
   //Con objeto Cliente transformado
   update():void{
     console.log(this.cliente)
+    this.cliente.facturas=null //Al editar los datos del cliente no es necesario actualizar sus facturas//Evita Problema de recursion
+
     this.clienteService.update(this.cliente)
     .subscribe(
     //Exito. Primer parametro.

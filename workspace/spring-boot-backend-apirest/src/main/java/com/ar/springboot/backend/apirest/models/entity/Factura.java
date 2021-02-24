@@ -38,7 +38,7 @@ public class Factura implements Serializable {
 	private Date createAt;
 
 	@ManyToOne(fetch = FetchType.LAZY) // Muchas facturas estan asociadas a un solo cliente
-	@JsonIgnoreProperties({"hibernateLazyInitializer","handler","facturas"})
+	@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","facturas"}, allowSetters=true) //allowSetters evita problemas de recursion
 	private Cliente cliente;
 
 	/* Bidireccional Factura-ItemFactura */
