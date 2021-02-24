@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ar.springboot.backend.apirest.models.dao.IClienteDao;
 import com.ar.springboot.backend.apirest.models.dao.IFacturaDao;
+import com.ar.springboot.backend.apirest.models.dao.IProductoDao;
 import com.ar.springboot.backend.apirest.models.entity.Cliente;
 import com.ar.springboot.backend.apirest.models.entity.Factura;
+import com.ar.springboot.backend.apirest.models.entity.Producto;
 import com.ar.springboot.backend.apirest.models.entity.Region;
 
 //@Service, marca la clase como un componenete de servicio en spring. Tambien se guarda en el contenedor de spring.	
@@ -24,6 +26,8 @@ public class ClienteServiceImpl implements IClienteService {
 	private IClienteDao clienteDao;
 	@Autowired
 	private IFacturaDao facturaDao;
+	@Autowired
+	private IProductoDao productoDao;
 	
 	//@Transactional, permite manejar transaccion.
 	//Los metodos del CrudRepository ya vienen con transaccionalidad
@@ -83,5 +87,11 @@ public class ClienteServiceImpl implements IClienteService {
 	public void deleteFacturaByid(Long id) {
 		facturaDao.deleteById(id);
 		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findProductoByNombre(String term) {
+		return productoDao.findByNombre(term);
 	}	
 }

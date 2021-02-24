@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.ar.springboot.backend.apirest.models.entity.Cliente;
 import com.ar.springboot.backend.apirest.models.entity.Factura;
+import com.ar.springboot.backend.apirest.models.entity.Producto;
 import com.ar.springboot.backend.apirest.models.entity.Region;
 
 //Interfaz del services
@@ -24,4 +25,6 @@ public interface IClienteService {
 	public Factura findFacturaById(Long id);
 	public Factura saveFactura(Factura factura);
 	public void deleteFacturaByid(Long id);
+	
+	public List<Producto> findProductoByNombre(String term);
 }

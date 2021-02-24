@@ -15,14 +15,18 @@ import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes} from '@angular/router'; //Rutas.
 import { HttpClientModule } from '@angular/common/http'; //CORS. En Java: JAX-RS Cliente, Java HTTP, Client Jersey.
 
-import { FormsModule} from '@angular/forms';
+import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 import localES from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule} from '@angular/material/datepicker'; //Angular Material
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
-import { DetalleFacturaComponent } from './facturas/detalle-factura.component'; //Angular Material
+import { DetalleFacturaComponent } from "./facturas/DetalleFacturaComponent";
+import { FacturasComponent } from './facturas/facturas.component';
 
 //Formato de fecha en ES
 registerLocaleData(localES,'es')
@@ -37,7 +41,8 @@ const routes: Routes=[
   {path:'clientes/form', component:FormComponent},  //Mapeo de ruta al componente FormComponent.
   {path:'clientes/form/:id', component:FormComponent},
   {path:'clientes/ver/:id', component:DetalleComponent}, //Componente subir imagen
-  {path:'facturas/:id',component:DetalleFacturaComponent}
+  {path:'facturas/:id',component:DetalleFacturaComponent},
+  {path:'facturas/form/:clienteId',component:FacturasComponent}
 ];
 
 @NgModule({
@@ -51,7 +56,8 @@ const routes: Routes=[
     FormComponent,
     PaginatorComponent,
     DetalleComponent,
-    DetalleFacturaComponent
+    DetalleFacturaComponent,
+    FacturasComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +67,11 @@ const routes: Routes=[
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   //DECLARACION DE SERVICIO (Adicionar el nuevo servicio).
   providers: [ClienteService ,{provide: LOCALE_ID, useValue:'es'},MatDatepickerModule],

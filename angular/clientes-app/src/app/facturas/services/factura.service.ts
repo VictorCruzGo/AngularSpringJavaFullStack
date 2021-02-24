@@ -6,7 +6,7 @@ import { Factura } from '../models/factura';
 @Injectable({
   providedIn: 'root'
 })
-export class FacturasService {
+export class FacturaService {
 
   private urlEndPoint: string="http://localhost:8080/api/facturas";
   constructor(private http:HttpClient) { }
@@ -14,5 +14,9 @@ export class FacturasService {
   getFactura(id:number):Observable<Factura>{
     //return this.http.get<Factura>(this.urlEndPoint+'/'+id)
     return this.http.get<Factura>(`${this.urlEndPoint}/${id}`)
+  }
+
+  delete(id:number):Observable<void>{
+    return this.http.delete<void>(`${this.urlEndPoint}/${id}`)
   }
 }

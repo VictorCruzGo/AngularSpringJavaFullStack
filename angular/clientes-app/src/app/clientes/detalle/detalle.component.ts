@@ -1,6 +1,8 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Factura } from 'src/app/facturas/models/factura';
+import { FacturaService } from 'src/app/facturas/services/factura.service';
 import Swal from 'sweetalert2';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
@@ -28,6 +30,7 @@ export class DetalleComponent implements OnInit {
   //Inyectar ClienteServic y ActivatedRoute via constructor
   //ActivatedRoute: Para editar un cliente, ver cuando cambia el parametro del ID.
   constructor(
+    private facturaService:FacturaService,
     private clienteService:ClienteService,
     private modalService:ModalService,
     private activatedRoute:ActivatedRoute) {
@@ -121,6 +124,27 @@ export class DetalleComponent implements OnInit {
     this._modalService.cerrarModal()
     this.fotoSeleccionada=null
     this.progreso=0
+  }
+
+  delete(factura:Factura): void{
+    Swal.fire({
+      title: 'Estas seguro?',
+      text: `Seguro que desea eliminar la factura ${factura.descripcion}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+    }).then((result) => {
+      if (result.value) {
+        //Observable.suscribe(observer)
+        this.facturaService.delete(factura.id).subscribe((Response) => {
+          //Filtrar el cliente eliminado
+          this.cliente.facturas = this.cliente.facturas.filter((f) => f !== factura);
+          Swal.fire('Factura eliminado!', 'La factura fue eliminado con exito.', 'success');
+        });
+      }
+    });
   }
 
 }
