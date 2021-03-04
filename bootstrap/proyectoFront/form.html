@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style type="text/css">
+        .borde{
+            background-color: gray;
+            height: 200px;
+            text-align: center;
+        }
+
+        .borde1{
+            background-color: aquamarine;
+            /*height: 100px;*/
+            text-align: center;
+        }
+
+        .borde2{
+            background-color: olivedrab;
+            height: 50px;
+            text-align: center;
+        }
+
+        .borde3{
+            background-color: orangered;
+            height: 50px;
+            text-align: center;
+            opacity: 80%;
+        }
+
+    </style>
+
+    <title>Tarjetas</title>
+  </head>
+  <body>
+    <!--******************************* INICIO CONTENIDO *******************************-->    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Datos personales</h3>
+                <form action="hola.php" method="POST">
+                    <label for="nombre" class="form-label">Nombre</label> <input type="text" id="nombre" class="form-control">
+                    <label for="email" class="form-label">Email</label> <input type="text" id="email" class="form-control">
+                    <label for="tiempo" class="form-label">Tiempo</label> <input type="datetime" id="tiempo" class="form-control">
+                    <label for="color" class="form-label">Color</label> <input type="color" id="color" class="form-control w-25" >
+                    <label for="contrasena" class="form-label">Contrasena</label> <input type="password" id="contrasena" class="form-control"><br>
+                    
+                    <label for="recordar" class="form-check-label"> <input class="form-control" type="checkbox" class="form-check-input"> Recordar</label> 
+                    
+                    <textarea name="descripcion" id="input" class="form-control w-50" cols="60" rows="10">                        
+                    </textarea>
+                    
+                    <div class="form-check">
+                        <label for="dos" class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="">Opcion 1
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label for="dos" class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="">Opcion 1
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label for="dos" class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="">Opcion 1
+                        </label>
+                    </div>
+                    
+                    <br>
+                    <br>
+
+                    <div><label for="radio1" class="radio-inline"><input id="radio1" type="radio">Television</label></div>
+                    <div><label for="radio2" class="radio-inline"><input id="radio2" type="radio">Radio</label></div>
+                    <div><label for="radio3" class="radio-inline"><input id="radio3" type="radio">Celular</label></div>
+
+                    <br>
+                    <br>
+
+                    <select name="" id="" class="form-control w-25">
+                        <option value="lunes">Lunes</option>
+                        <option value="martes">Martes</option>
+                        <option value="miercoles">Miercoles</option>
+                        <option value="jueves">Jueves</option>
+                        <option value="viernes">Viernes</option>
+                    </select>
+
+                    <br>
+                    <br>
+
+                    <input type="submit" value="ENVIAR" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!--******************************* FIN CONTENIDO *******************************-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
